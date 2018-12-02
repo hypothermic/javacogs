@@ -9,15 +9,16 @@ pipeline {
                 '''
             }
         }
+        
+        stage ('Tests') {
+            steps {
+                sh 'mvn test' 
+            }
+        }
 
         stage ('Build') {
             steps {
                 sh 'mvn install' 
-            }
-            post {
-                success {
-                    junit 'target/surefire-reports/**/*.xml' 
-                }
             }
         }
     }
