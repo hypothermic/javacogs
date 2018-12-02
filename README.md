@@ -1,9 +1,7 @@
-<a href='http://ci.hypothermic.nl/job/javacogs/job/master/'><img src='http://ci.hypothermic.nl/buildStatus/icon?job=javacogs/master'></a>
-
-[![Build Status](http://ci.hypothermic.nl/buildStatus/icon?job=javacogs/master)](http://ci.hypothermic.nl/job/javacogs/job/master/)
-
-[![Build Status](http://ci.hypothermic.nl/buildStatus/icon?job=javacogs/master)](http://ci.hypothermic.nl/job/javacogs/master)
+[![Build Status](http://ci.hypothermic.nl/buildStatus/icon?job=javacogs/master)](https://ci.hypothermic.nl/job/javacogs/job/master/)
+[![Download](https://img.shields.io/badge/download-latest-blue.svg)](https://ci.hypothermic.nl/job/javacogs/job/master/lastSuccessfulBuild/artifact/target/)
+[![BSD 3-Clause License](https://img.shields.io/badge/license-BSD%203--Clause-lightgrey.svg)](https://github.com/hypothermic/javacogs/blob/master/LICENSE)
 
 # Javacogs
 
-An asynchronous and professional implementaion of the Discogs API.
+A professional asynchronous client library for the Discogs API v2.
