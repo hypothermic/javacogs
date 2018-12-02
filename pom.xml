@@ -56,6 +56,13 @@
 					<include>**/**</include>
 				</includes>
 			</resource>
+			<!-- We don't need to build examples, so exclude them -->
+			<resource>
+                <directory>src/examples</directory>
+                <excludes>
+                    <exclude>**/**</exclude>
+                </excludes>
+            </resource>
 		</resources>
 		<plugins>
 			<plugin>
