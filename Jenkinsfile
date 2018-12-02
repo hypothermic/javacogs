@@ -22,4 +22,9 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            archiveArtifacts artifacts: 'target/javacogs-*.jar', fingerprint: true
+        }
+    }
 }
