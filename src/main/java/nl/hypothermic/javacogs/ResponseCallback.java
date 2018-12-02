@@ -1,9 +1,10 @@
 package nl.hypothermic.javacogs;
 
+import nl.hypothermic.javacogs.entities.Entity;
 import nl.hypothermic.javacogs.network.Response;
 
-public interface ResponseCallback {
+public interface ResponseCallback<T extends Entity> {
 	
-	void onResult(Response response);
+	void onResult(Response<T> response);
 
 }
