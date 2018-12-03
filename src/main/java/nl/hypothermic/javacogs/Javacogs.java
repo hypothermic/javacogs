@@ -51,7 +51,7 @@ public class Javacogs {
 	
 	private AuthenticationMethod authMethod = new NoopAuthenticationMethod();
 	
-	private HttpExecutor httpExecutor = new HttpExecutor();
+	private HttpExecutor httpExecutor = new HttpExecutor(this);
 
     public Javacogs() {
         handlerList.add(new DatabaseHandler(this));

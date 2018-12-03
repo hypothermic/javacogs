@@ -7,7 +7,15 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import nl.hypothermic.javacogs.Javacogs;
+
 public class HttpExecutor {
+	
+	private final Javacogs instance;
+	
+	public HttpExecutor(final Javacogs instance) {
+		this.instance = instance;
+	}
 	
 	/**
 	 * Issue a HTTP-GET request to the <code>address</code>.
@@ -21,6 +29,7 @@ public class HttpExecutor {
 	    conn.setRequestMethod("GET");
 	    conn.setRequestProperty("Accept", "application/vnd.discogs.v2.plaintext+json");
 	    conn.setRequestProperty("User-Agent", "Javacogs/1.0 +https://github.com/hypothermic/javacogs");
+	    instance.getAuthenticationMethod().applyHttpParameters(conn);
 	    BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	    String line;
 	    while ((line = rd.readLine()) != null) {
