@@ -41,9 +41,25 @@ public class ReleaseInformationExample {
 				// and we can't use it.
 				
 				if (response.hasSucceeded()) {
-					System.out.println(response.getValue().toString());
+					
+					// Retrieve the requested release information from the response:
+					
+					Release release = response.getValue();
+					
+					// Print it out to confirm it works:
+					
+					System.out.println(release.toString());
+					
 				} else {
+					
+					// Whoops! The response has failed due one of the following reasons:
+					//
+					// - Network unavailible
+					//
+					// - Unknown exception
+					
 					System.out.println("Response failed.");
+					
 				}
 			}
 			
