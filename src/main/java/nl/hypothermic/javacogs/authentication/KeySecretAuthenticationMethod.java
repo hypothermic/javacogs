@@ -4,11 +4,11 @@ import javax.net.ssl.HttpsURLConnection;
 
 import nl.hypothermic.javacogs.AuthenticationMethod;
 
-public class DiscogsKeySecretAuthMethod implements AuthenticationMethod {
+public class KeySecretAuthenticationMethod implements AuthenticationMethod {
 	
 	private final String key, secret;
 	
-	public DiscogsKeySecretAuthMethod(final String key, final String secret) {
+	public KeySecretAuthenticationMethod(final String key, final String secret) {
 		if (key == null || secret == null) {
 			throw new IllegalArgumentException("Key and/or secret cannot be null.");
 		}

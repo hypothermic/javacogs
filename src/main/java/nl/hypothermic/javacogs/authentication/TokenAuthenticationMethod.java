@@ -4,11 +4,11 @@ import javax.net.ssl.HttpsURLConnection;
 
 import nl.hypothermic.javacogs.AuthenticationMethod;
 
-public class DiscogsTokenAuthMethod implements AuthenticationMethod {
+public class TokenAuthenticationMethod implements AuthenticationMethod {
 	
 	private final String token;
 	
-	public DiscogsTokenAuthMethod(final String token) {
+	public TokenAuthenticationMethod(final String token) {
 		if (token == null) {
 			throw new IllegalArgumentException("Token cannot be null.");
 		}

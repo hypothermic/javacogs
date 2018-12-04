@@ -2,14 +2,14 @@ package nl.hypothermic.javacogs;
 
 import javax.net.ssl.HttpsURLConnection;
 
-import nl.hypothermic.javacogs.authentication.DiscogsKeySecretAuthMethod;
-import nl.hypothermic.javacogs.authentication.DiscogsTokenAuthMethod;
+import nl.hypothermic.javacogs.authentication.KeySecretAuthenticationMethod;
+import nl.hypothermic.javacogs.authentication.TokenAuthenticationMethod;
 
 public interface AuthenticationMethod {
 	
 	enum Methods {
-		Token(DiscogsTokenAuthMethod.class),
-		KeySecret(DiscogsKeySecretAuthMethod.class),
+		Token(TokenAuthenticationMethod.class),
+		KeySecret(KeySecretAuthenticationMethod.class),
 		//OAuth1_0A(OAuthMethod.class),
 		
 		;
