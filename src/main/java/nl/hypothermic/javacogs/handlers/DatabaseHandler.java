@@ -27,7 +27,7 @@ public class DatabaseHandler implements IHandler {
 	 * @return Release object
 	 */
 	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
-	public void getReleaseById(final int releaseId, final ResponseCallback cb) throws IOException {
+	public void getReleaseById(final int releaseId, final ResponseCallback<Release> cb) throws IOException {
 		instance.threadpool.execute(new Runnable() {
 			public void run() {
 				try {
@@ -47,7 +47,7 @@ public class DatabaseHandler implements IHandler {
 	 * @return Release object
 	 */
 	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
-	public void getReleaseById(final int releaseId, final Currency currency, final ResponseCallback cb) throws IOException {
+	public void getReleaseById(final int releaseId, final Currency currency, final ResponseCallback<Release> cb) throws IOException {
 		instance.threadpool.execute(new Runnable() {
 			public void run() {
 				try {
@@ -65,7 +65,7 @@ public class DatabaseHandler implements IHandler {
 	 * Get a master release by id.
 	 */
 	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
-	public void getMasterById(final int masterId, final ResponseCallback cb) throws IOException {
+	public void getMasterById(final int masterId, final ResponseCallback<Master> cb) throws IOException {
 		instance.threadpool.execute(new Runnable() {
 			public void run() {
 				try {
