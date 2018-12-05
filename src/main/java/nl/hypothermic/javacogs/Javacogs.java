@@ -10,6 +10,7 @@ import nl.hypothermic.javacogs.handlers.DatabaseHandler;
 import nl.hypothermic.javacogs.handlers.Handler;
 import nl.hypothermic.javacogs.handlers.IHandler;
 import nl.hypothermic.javacogs.network.HttpExecutor;
+import nl.hypothermic.javacogs.network.RateLimiter;
 
 /**
  * The main entry point. Acts as a registry system of Javacogs. All parts of the the API can be accessed starting from this class.
@@ -50,6 +51,7 @@ public class Javacogs {
 	private final ArrayList<IHandler> handlerList = new ArrayList<IHandler>();
 	
 	private AuthenticationMethod authMethod = new NoopAuthenticationMethod();
+	private RateLimiter rateLimiter = new RateLimiter();
 	
 	private HttpExecutor httpExecutor = new HttpExecutor(this);
 
@@ -63,6 +65,10 @@ public class Javacogs {
 
 	public void setAuthenticationMethod(AuthenticationMethod authMethod) {
 		this.authMethod = authMethod;
+	}
+	
+	public RateLimiter getRateLimiter() {
+		return this.rateLimiter;
 	}
 	
 	public HttpExecutor getHttpExecutor() {
