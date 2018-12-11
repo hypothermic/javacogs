@@ -75,6 +75,15 @@ public class Javacogs {
 		return httpExecutor;
 	}
 
+	/**
+	 * Get the instance of specified handler.<br>
+	 * Example for the database handler:
+	 * <pre>
+	 * <code>
+	 * DatabaseHandler handler = Javacogs.getInstance().getHandler(Handler.DATABASE);
+	 * </code>
+	 * </pre>
+	 */
 	public <T extends IHandler> T getHandler(Handler<T> handler) {
 		for (IHandler h : handlerList) {
 			if (h.getClass() == handler.getHandler()) {
