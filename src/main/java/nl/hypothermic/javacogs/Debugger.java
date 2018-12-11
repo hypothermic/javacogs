@@ -15,13 +15,15 @@ public class Debugger {
 	
 	public static void main(String[] args) throws Exception {
 		// sample: get master release
-		Javacogs.getInstance().getHandler(Handler.DATABASE).getArtistById(270222, new ResponseCallback<ArtistWrapper>() {
+		Javacogs.getInstance().getHandler(Handler.DATABASE).getArtistById(108713, new ResponseCallback<ArtistWrapper>() {
 			public void onResult(Response<ArtistWrapper> response) {
 				ArtistWrapper wrapper = response.getValue();
 				if (wrapper instanceof ArtistGroup) {
 					ArtistGroup group = (ArtistGroup) wrapper;
+					System.out.println(group.toString());
 				} else if (wrapper instanceof ArtistMember) {
 					ArtistMember member = (ArtistMember) wrapper;
+					System.out.println(member.toString());
 				}
 			}
 		});
