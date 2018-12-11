@@ -1,6 +1,8 @@
 package nl.hypothermic.javacogs;
 
-import nl.hypothermic.javacogs.entities.Master;
+import nl.hypothermic.javacogs.entities.ArtistGroup;
+import nl.hypothermic.javacogs.entities.ArtistMember;
+import nl.hypothermic.javacogs.entities.ArtistWrapper;
 import nl.hypothermic.javacogs.handlers.Handler;
 import nl.hypothermic.javacogs.network.Response;
 
@@ -13,12 +15,13 @@ public class Debugger {
 	
 	public static void main(String[] args) throws Exception {
 		// sample: get master release
-		Javacogs.getInstance().getHandler(Handler.DATABASE).getMasterById(1000, new ResponseCallback<Master>() {
-			public void onResult(Response<Master> response) {
-				if (response.hasSucceeded()) {
-					System.out.println(response.getValue().toString());
-				} else {
-					System.out.println("Response failed.");
+		Javacogs.getInstance().getHandler(Handler.DATABASE).getArtistById(270222, new ResponseCallback<ArtistWrapper>() {
+			public void onResult(Response<ArtistWrapper> response) {
+				ArtistWrapper wrapper = response.getValue();
+				if (wrapper instanceof ArtistGroup) {
+					ArtistGroup group = (ArtistGroup) wrapper;
+				} else if (wrapper instanceof ArtistMember) {
+					ArtistMember member = (ArtistMember) wrapper;
 				}
 			}
 		});

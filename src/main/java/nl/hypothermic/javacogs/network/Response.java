@@ -6,7 +6,7 @@ public class Response<T extends Entity> {
 	
 	private final boolean hasSucceeded;
 	
-	private final T value;
+	public final T value;
 	
 	public Response(boolean hasSucceeded, T value) {
 		this.hasSucceeded = hasSucceeded;

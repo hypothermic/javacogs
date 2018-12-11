@@ -9,6 +9,9 @@ import nl.hypothermic.javacogs.Javacogs;
 import nl.hypothermic.javacogs.ResponseCallback;
 import nl.hypothermic.javacogs.annotations.RequiredAuthenticationLevel;
 import nl.hypothermic.javacogs.constants.Currency;
+import nl.hypothermic.javacogs.entities.ArtistWrapper;
+import nl.hypothermic.javacogs.entities.ArtistGroup;
+import nl.hypothermic.javacogs.entities.ArtistMember;
 import nl.hypothermic.javacogs.entities.Master;
 import nl.hypothermic.javacogs.entities.Release;
 import nl.hypothermic.javacogs.network.Response;
@@ -74,6 +77,66 @@ public class DatabaseHandler implements IHandler {
 										 Master.class)));
 				} catch (IOException x) {
 					cb.onResult(new Response<Master>(false, null));
+				}
+			}
+		});
+	}
+	
+	/**
+	 * TODO
+	 */
+	/*@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public void getMasterVersionsById(final int masterId, final int page, final int perPage, final ResponseCallback<Version> cb) throws IOException {
+		instance.threadpool.execute(new Runnable() {
+			public void run() {
+				try {
+					System.out.println("RES: " + instance.getHttpExecutor().get(Javacogs.apiUrlBase + "masters/" + masterId + "/versions?{" + page + "," + perPage + "}"));
+					cb.onResult(new PageResponse<Version>(true,
+						JSON.parseObject(instance.getHttpExecutor().get(Javacogs.apiUrlBase + "masters/" + masterId + "/versions?{" + page + "," + perPage + "}"), 
+										 Version.class)));
+				} catch (IOException x) {
+					cb.onResult(new PageResponse<Version>(false, null));
+				}
+			}
+		});
+	}*/
+	
+	/**
+	 * Get an artist by id.<br>
+	 * <br>
+	 * The returned object can be casted into either an ArtistGroup or ArtistMember (Discogs didn't seperate these in the API).<br>
+	 * Here is an example:
+	 * <pre>
+	 * <code>
+	 * ArtistWrapper wrapper = response.getValue();
+	 * if (wrapper instanceof ArtistGroup) {
+	 * 	ArtistGroup group = (ArtistGroup) wrapper;
+	 * } else if (wrapper instanceof ArtistMember) {
+	 * 	ArtistMember member = (ArtistMember) wrapper;
+	 * }
+	 * </code>
+	 * </pre>
+	 * 
+	 * @return ArtistWrapper object
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public void getArtistById(final int releaseId, final ResponseCallback<ArtistWrapper> cb) throws IOException {
+		instance.threadpool.execute(new Runnable() {
+			public void run() {
+				try {
+					String res = instance.getHttpExecutor().get(Javacogs.apiUrlBase + "artists/" + releaseId);
+					// the JSON parser will actually parse to ArtistGroup, but if it's a member, _members will be null.
+					ArtistGroup group = JSON.parseObject(res, ArtistGroup.class);
+					if (group._members != null) {
+						// return a group
+						cb.onResult(new Response<ArtistWrapper>(true, group));
+					} else {
+						// return a member
+						cb.onResult(new Response<ArtistWrapper>(true,
+								JSON.parseObject(res, ArtistMember.class)));
+					}
+				} catch (IOException x) {
+					cb.onResult(new Response<ArtistWrapper>(false, null));
 				}
 			}
 		});
