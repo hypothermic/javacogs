@@ -38,7 +38,7 @@ public class DatabaseTests {
 	 * Fails if Javacogs couldn't get/parse response:
 	 * <pre><code>if (response.hasSucceeded()) {</code></pre>
 	 * or the response was invalid: (
-	 * <pre><code>Assert.assertEquals(response.getValue().getReleaseYear(), 1987);</code></pre>
+	 * <pre><code>Assert.assertEquals(response.getValue().getReleaseYear(), 1997);</code></pre>
 	 */
 	@Test
     public void getMasterByIdTest() throws IOException {
