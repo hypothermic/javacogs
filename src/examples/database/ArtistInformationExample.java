@@ -49,21 +49,21 @@ public class ArtistInformationExample {
 					
 					// Retrieve the requested artist wrapper from the response:
 					
-					ArtistWrapper release = response.getValue();
+					ArtistWrapper wrapper = response.getValue();
 					
 					// Here's the difficult part: we've requested the artist,
 					// but we don't know if it's a single person or a group.
 					// We can figure out by casting the wrapper:
 					
-					if (release instanceof ArtistGroup) {
+					if (wrapper instanceof ArtistGroup) {
 						// it's a group of persons (ex. Nickelback)
 						
-						ArtistGroup group = (ArtistGroup) release;
+						ArtistGroup group = (ArtistGroup) wrapper;
 					}
-					else if (release instanceof ArtistMember) {
+					else if (wrapper instanceof ArtistMember) {
 						// it's a single person (ex. Chad Kroeger)
 						
-						ArtistMember person = (ArtistMember) release;
+						ArtistMember person = (ArtistMember) wrapper;
 					}
 					
 				} else {
