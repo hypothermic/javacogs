@@ -1,6 +1,8 @@
-package nl.hypothermic.javacogs;
+package nl.hypothermic.javacogs.authentication;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import nl.hypothermic.javacogs.AuthenticationMethod;
 
 /**
  * No-op auth method.

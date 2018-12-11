@@ -6,6 +6,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import nl.hypothermic.javacogs.authentication.NoopAuthenticationMethod;
 import nl.hypothermic.javacogs.handlers.DatabaseHandler;
 import nl.hypothermic.javacogs.handlers.Handler;
 import nl.hypothermic.javacogs.handlers.IHandler;
