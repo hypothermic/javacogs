@@ -8,7 +8,7 @@ import nl.hypothermic.javacogs.authentication.TokenAuthenticationMethod;
 public interface AuthenticationMethod {
 	
 	/**
-	 * Enumeration of all authentication methods.
+	 * Enumeration of all authentication methods and their corresponding classes (<code>getClazz()</code>).
 	 * 
 	 * @see {@link nl.hypothermic.javacogs.authentication.TokenAuthenticationMethod#TokenAuthenticationMethod(String)}
 	 * @see {@link nl.hypothermic.javacogs.authentication.KeySecretAuthenticationMethod#KeySecretAuthenticationMethod(String, String)}
@@ -32,10 +32,23 @@ public interface AuthenticationMethod {
 		}
 	}
 	
+	/**
+	 * This function will be called before a HTTP request will be made.
+	 */
 	public void beforeRequest();
 	
+	/**
+	 * This function will be called when the connection has been opened.<br>
+	 * <br>
+	 * The connection headers have been set already but the data has not been read yet.
+	 * 
+	 * @param connection	Opened HTTPS connection
+	 */
 	public void applyHttpParameters(HttpsURLConnection connection);
 	
+	/**
+	 * This function will be called after the connection has been closed.
+	 */
 	public void afterRequest();
 
 }
