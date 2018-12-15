@@ -14,7 +14,11 @@
 	</properties>
 
 	<dependencies>
-		<!--<dependency> <groupId>org.json</groupId> <artifactId>json</artifactId> <version>20180813</version> </dependency> -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180813</version>
+		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
@@ -58,11 +62,11 @@
 			</resource>
 			<!-- We don't need to build examples, so exclude them -->
 			<resource>
-                <directory>src/examples</directory>
-                <excludes>
-                    <exclude>**/**</exclude>
-                </excludes>
-            </resource>
+				<directory>src/examples</directory>
+				<excludes>
+					<exclude>**/**</exclude>
+				</excludes>
+			</resource>
 		</resources>
 		<plugins>
 			<plugin>
