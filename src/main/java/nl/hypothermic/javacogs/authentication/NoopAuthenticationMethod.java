@@ -5,8 +5,8 @@ import javax.net.ssl.HttpsURLConnection;
 import nl.hypothermic.javacogs.AuthenticationMethod;
 
 /**
- * No-op auth method.
- * 
+ * No-operation auth method.<br>
+ * <br>
  * Does exactly what it advertises: nothing.
  */
 public class NoopAuthenticationMethod implements AuthenticationMethod {
