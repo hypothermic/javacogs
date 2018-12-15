@@ -1,7 +1,7 @@
 package database;
 
 import nl.hypothermic.javacogs.Javacogs;
-import nl.hypothermic.javacogs.ResponseCallback;
+import nl.hypothermic.javacogs.concurrency.ResponseCallback;
 import nl.hypothermic.javacogs.entities.Release;
 import nl.hypothermic.javacogs.handlers.Handler;
 import nl.hypothermic.javacogs.network.Response;

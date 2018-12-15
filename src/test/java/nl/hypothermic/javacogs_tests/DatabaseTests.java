@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import nl.hypothermic.javacogs.Javacogs;
-import nl.hypothermic.javacogs.ResponseCallback;
+import nl.hypothermic.javacogs.concurrency.ResponseCallback;
 import nl.hypothermic.javacogs.entities.ArtistGroup;
 import nl.hypothermic.javacogs.entities.ArtistMember;
 import nl.hypothermic.javacogs.entities.ArtistWrapper;

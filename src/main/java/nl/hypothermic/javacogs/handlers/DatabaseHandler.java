@@ -8,9 +8,9 @@ import org.json.JSONObject;
 
 import nl.hypothermic.javacogs.AuthenticationType;
 import nl.hypothermic.javacogs.Javacogs;
-import nl.hypothermic.javacogs.ResponseCallback;
-import nl.hypothermic.javacogs.UncheckedCallback;
 import nl.hypothermic.javacogs.annotations.RequiredAuthenticationLevel;
+import nl.hypothermic.javacogs.concurrency.ResponseCallback;
+import nl.hypothermic.javacogs.concurrency.UncheckedCallback;
 import nl.hypothermic.javacogs.constants.Currency;
 import nl.hypothermic.javacogs.entities.ArtistGroup;
 import nl.hypothermic.javacogs.entities.ArtistMember;

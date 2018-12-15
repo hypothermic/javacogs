@@ -1,4 +1,4 @@
-package nl.hypothermic.javacogs;
+package nl.hypothermic.javacogs.concurrency;
 
 import nl.hypothermic.javacogs.entities.Entity;
 import nl.hypothermic.javacogs.network.Response;

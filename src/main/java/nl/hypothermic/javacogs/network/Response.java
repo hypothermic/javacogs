@@ -2,7 +2,7 @@ package nl.hypothermic.javacogs.network;
 
 import nl.hypothermic.javacogs.entities.Entity;
 
-public class Response<T extends Entity> {
+public class Response<T extends Object> {
 	
 	private final boolean hasSucceeded;
 	
