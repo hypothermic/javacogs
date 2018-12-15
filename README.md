@@ -11,6 +11,7 @@ A professional asynchronous client library for the Discogs API v2.
 - Easy authentication with one-time setup
 - Built-in adaptive rate limiting
 - Handler library structure for ease of use
+- Support for Java 6 and up
 
 # Try it out
 Retrieve information about a release by ID:
