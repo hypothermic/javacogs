@@ -65,6 +65,9 @@ public class Javacogs {
 	}
 
 	public void setAuthenticationMethod(AuthenticationMethod authMethod) {
+		if (!(authMethod instanceof NoopAuthenticationMethod)) {
+			this.rateLimiter.setRateLimit(60);
+		}
 		this.authMethod = authMethod;
 	}
 	

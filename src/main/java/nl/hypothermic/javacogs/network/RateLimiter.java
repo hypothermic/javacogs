@@ -15,8 +15,16 @@ public class RateLimiter {
 	private long lastTimeframeStart;
 	
 	public RateLimiter() {
-		limit = 30;
+		/* The rate limiter will be initialized when the user hasn't gotten
+		 * any chance to set the auth method yet, so init it at 25. 
+		 */
+		limit = 25;
+		
 		resetTimeframe();
+	}
+	
+	public void setRateLimit(int limit) {
+		this.limit = limit;
 	}
 	
 	public void fetchRegulationsFrom(HttpsURLConnection connection) {
