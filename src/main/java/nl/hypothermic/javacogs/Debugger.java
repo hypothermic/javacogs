@@ -2,14 +2,8 @@ package nl.hypothermic.javacogs;
 
 import java.util.Arrays;
 
-import org.json.JSONObject;
-
-import com.alibaba.fastjson.JSON;
-
 import nl.hypothermic.javacogs.concurrency.UncheckedCallback;
-import nl.hypothermic.javacogs.entities.ArtistGroup;
-import nl.hypothermic.javacogs.entities.ArtistMember;
-import nl.hypothermic.javacogs.entities.ArtistWrapper;
+import nl.hypothermic.javacogs.entities.Label;
 import nl.hypothermic.javacogs.entities.Release;
 import nl.hypothermic.javacogs.handlers.Handler;
 import nl.hypothermic.javacogs.network.Response;
@@ -23,14 +17,18 @@ public class Debugger {
 	
 	public static void main(String[] args) throws Exception {
 		// sample: get master release
-		Javacogs.getInstance().getHandler(Handler.DATABASE).getReleasesByArtist(108713, new UncheckedCallback<Release[]>() {
+		Javacogs.getInstance().getHandler(Handler.DATABASE).getReleasesByLabel(new Label(1), new UncheckedCallback<Release[]>() {
 			public void onResult(Response<Release[]> response) {
 				if (response.hasSucceeded()) {
-					System.out.println(Arrays.toString(response.getValue()));
+					i("---> " + Arrays.toString(response.getValue()));
 				} else {
-					System.out.println("Response failed.");
+					i("Response failed");
 				}
 			}
 		});
+	}
+	
+	public static void i(String msg) {
+		System.out.println(msg);
 	}
 }
