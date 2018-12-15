@@ -3,15 +3,18 @@ package nl.hypothermic.javacogs.handlers;
 import java.io.IOException;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import org.json.JSONObject;
 
 import nl.hypothermic.javacogs.AuthenticationType;
 import nl.hypothermic.javacogs.Javacogs;
 import nl.hypothermic.javacogs.ResponseCallback;
+import nl.hypothermic.javacogs.UncheckedCallback;
 import nl.hypothermic.javacogs.annotations.RequiredAuthenticationLevel;
 import nl.hypothermic.javacogs.constants.Currency;
-import nl.hypothermic.javacogs.entities.ArtistWrapper;
 import nl.hypothermic.javacogs.entities.ArtistGroup;
 import nl.hypothermic.javacogs.entities.ArtistMember;
+import nl.hypothermic.javacogs.entities.ArtistWrapper;
 import nl.hypothermic.javacogs.entities.Master;
 import nl.hypothermic.javacogs.entities.Release;
 import nl.hypothermic.javacogs.network.Response;
@@ -39,6 +42,40 @@ public class DatabaseHandler implements IHandler {
 										 Release.class)));
 				} catch (IOException x) {
 					cb.onResult(new Response<Release>(false, null));
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Get list of releases by artist id.
+	 * 
+	 * @return Release[] object
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public void getReleasesByArtist(final int artistId, final UncheckedCallback<Release[]> cb) throws IOException {
+		this.getReleasesByArtist(new ArtistWrapper(artistId), cb);
+	}
+	
+	/**
+	 * Get list of releases by artist.
+	 * 
+	 * @return Release[] object
+	 */
+	// Holy shit, this code looks beautiful! Fits perfectly within the 140-char limit.
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public void getReleasesByArtist(final ArtistWrapper artist, final UncheckedCallback<Release[]> cb) throws IOException {
+		instance.threadpool.execute(new Runnable() {
+			public void run() {
+				try {
+					cb.onResult(new Response<Release[]>(true,
+							(Release[]) JSON.parseArray(new JSONObject(
+									instance.getHttpExecutor().get(Javacogs.apiUrlBase + "artists/" + artist.getId() + "/releases"))
+															.getJSONArray("releases").toString(), 
+														Release.class)
+						.toArray(new Release[] {})));
+				} catch (IOException x) {
+					cb.onResult(new Response<Release[]>(false, null));
 				}
 			}
 		});
@@ -120,13 +157,14 @@ public class DatabaseHandler implements IHandler {
 	 * @return ArtistWrapper object
 	 */
 	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
-	public void getArtistById(final int releaseId, final ResponseCallback<ArtistWrapper> cb) throws IOException {
+	public void getArtistById(final int artistId, final ResponseCallback<ArtistWrapper> cb) throws IOException {
 		instance.threadpool.execute(new Runnable() {
 			public void run() {
 				try {
-					String res = instance.getHttpExecutor().get(Javacogs.apiUrlBase + "artists/" + releaseId);
+					String res = instance.getHttpExecutor().get(Javacogs.apiUrlBase + "artists/" + artistId);
 					// the JSON parser will actually parse to ArtistGroup, but if it's a member, _members will be null.
 					ArtistGroup group = JSON.parseObject(res, ArtistGroup.class);
+					group.setId(artistId);
 					if (group._members != null) {
 						// return a group
 						cb.onResult(new Response<ArtistWrapper>(true, group));
