@@ -7,6 +7,9 @@ import org.junit.Test;
 
 import nl.hypothermic.javacogs.Javacogs;
 import nl.hypothermic.javacogs.ResponseCallback;
+import nl.hypothermic.javacogs.entities.ArtistGroup;
+import nl.hypothermic.javacogs.entities.ArtistMember;
+import nl.hypothermic.javacogs.entities.ArtistWrapper;
 import nl.hypothermic.javacogs.entities.Master;
 import nl.hypothermic.javacogs.entities.Release;
 import nl.hypothermic.javacogs.handlers.Handler;
@@ -50,6 +53,27 @@ public class DatabaseTests {
 				} else {
 					Assert.fail("DatabaseTests: getMasterByIdTest: Response failed.");
 				}
+			}
+		});
+    }
+	
+	/**
+	 * Fails if Javacogs couldn't get/parse response:
+	 * <pre><code>if (response.hasSucceeded()) {</code></pre>
+	 * or the response was invalid: (
+	 * <pre><code>Assert.assertEquals(((ArtistGroup) wrapper).name, "Nickelback");</code></pre>
+	 */
+	@Test
+    public void getArtistByIdTest() throws IOException {
+        Javacogs.getInstance().getHandler(Handler.DATABASE).getArtistById(108713, new ResponseCallback<ArtistWrapper>() {
+			public void onResult(Response<ArtistWrapper> response) {
+				ArtistWrapper wrapper = response.getValue();
+				if (!(wrapper instanceof ArtistGroup)) {
+					Assert.fail("DatabaseTests: getArtistByIdTest: 108713 != group");
+					ArtistGroup group = (ArtistGroup) wrapper;
+					System.out.println(group.toString());
+				}
+				Assert.assertEquals(((ArtistGroup) wrapper).name, "Nickelback");
 			}
 		});
     }
