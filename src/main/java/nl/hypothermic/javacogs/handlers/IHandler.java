@@ -4,5 +4,4 @@ import nl.hypothermic.javacogs.AuthenticationType;
 
 public interface IHandler {
 
-    AuthenticationType getPrivilege();
 }

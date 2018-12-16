@@ -381,8 +381,4 @@ public class DatabaseHandler implements IHandler {
 		}
 		cb.onResult(new Response<X>(false, null));
 	}
-	
-	public AuthenticationType getPrivilege() {
-		return AuthenticationType.PUBLIC;
-	}
 }
