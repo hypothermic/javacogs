@@ -9,16 +9,22 @@ import com.alibaba.fastjson.JSON;
 import nl.hypothermic.javacogs.AuthenticationType;
 import nl.hypothermic.javacogs.Debugger;
 import nl.hypothermic.javacogs.Javacogs;
+import nl.hypothermic.javacogs.SearchBuilder;
 import nl.hypothermic.javacogs.annotations.RequiredAuthenticationLevel;
+import nl.hypothermic.javacogs.authentication.NoopAuthenticationMethod;
 import nl.hypothermic.javacogs.concurrency.ResponseCallback;
 import nl.hypothermic.javacogs.concurrency.UncheckedCallback;
 import nl.hypothermic.javacogs.constants.Currency;
+import nl.hypothermic.javacogs.constants.EntityType;
 import nl.hypothermic.javacogs.entities.ArtistGroup;
 import nl.hypothermic.javacogs.entities.ArtistMember;
 import nl.hypothermic.javacogs.entities.ArtistWrapper;
+import nl.hypothermic.javacogs.entities.Entity;
 import nl.hypothermic.javacogs.entities.Label;
 import nl.hypothermic.javacogs.entities.Master;
 import nl.hypothermic.javacogs.entities.Release;
+import nl.hypothermic.javacogs.entities.SearchResult;
+import nl.hypothermic.javacogs.exception.AuthenticationException;
 import nl.hypothermic.javacogs.network.Response;
 
 public class DatabaseHandler implements IHandler {
@@ -199,7 +205,6 @@ public class DatabaseHandler implements IHandler {
 	/**
 	 * Get an artist by id.<br>
 	 *
-	 * 
 	 * <br>
 	 * The returned "wrapper" can be casted into either an ArtistGroup or ArtistMember (Discogs didn't seperate these in the API).<br>
 	 * Here is an example:
@@ -263,6 +268,118 @@ public class DatabaseHandler implements IHandler {
 				}
 			}
 		});
+	}
+	
+	/**
+	 * Get list of releases by search.
+	 * 
+	 * @param searchBuilder	A SearchBuilder instance with at least one parameter set.
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return Release[] object
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PROTECTED)
+	public void getReleasesBySearch(final SearchBuilder searchBuilder, final UncheckedCallback<Release[]> cb) throws IOException {
+		if (instance.getAuthenticationMethod() instanceof NoopAuthenticationMethod) {
+			throw new AuthenticationException("You must authenticate to access this resource.");
+		}
+		if (searchBuilder.isEmpty()) {
+			cb.onResult(new Response<Release[]>(false, null));
+			return;
+		}
+		instance.threadpool.execute(new Runnable() {
+			public void run() {
+				try {
+					cb.onResult(new Response<Release[]>(true,
+							(Release[]) JSON.parseArray(new JSONObject(
+									instance.getHttpExecutor().get(Javacogs.apiUrlBase + "database/search" + searchBuilder.toParameters()))
+															.getJSONArray("results").toString(), 
+														Release.class)
+						.toArray(new Release[] {})));
+				} catch (IOException x) {
+					cb.onResult(new Response<Release[]>(false, null));
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Get list of entities by search (ArtistWrapper, Label, Master, Release) in SearchResult objects.
+	 * 
+	 * @param searchBuilder	A SearchBuilder instance with at least one parameter set.
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return SearchResult[] object
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PROTECTED)
+	public void getEntitiesBySearch(final SearchBuilder searchBuilder, final UncheckedCallback<SearchResult[]> cb) throws IOException {
+		if (instance.getAuthenticationMethod() instanceof NoopAuthenticationMethod) {
+			throw new AuthenticationException("You must authenticate to access this resource.");
+		}
+		if (searchBuilder.isEmpty()) {
+			cb.onResult(new Response<SearchResult[]>(false, null));
+			return;
+		}
+		instance.threadpool.execute(new Runnable() {
+			public void run() {
+				try {
+					cb.onResult(new Response<SearchResult[]>(true,
+							(SearchResult[]) JSON.parseArray(new JSONObject(
+									instance.getHttpExecutor().get(Javacogs.apiUrlBase + "database/search" + searchBuilder.toParameters()))
+															.getJSONArray("results").toString(), 
+														SearchResult.class)
+						.toArray(new SearchResult[] {})));
+				} catch (IOException x) {
+					cb.onResult(new Response<SearchResult[]>(false, null));
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Get full entity from SearchResult object.
+	 * 
+	 * @param searchResult	A SearchResult with ID and Type set. (can be aquired from getEntitiesBySearch())
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return Entity, which can be casted into an ArtistWrapper, Label, Master or Release.
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public <X extends Entity> void getEntityFromSearchResult(final SearchResult searchResult, final ResponseCallback<X> cb) throws IOException {
+		if (searchResult.id == null || searchResult.type == null) {
+			cb.onResult(new Response<X>(false, null));
+		}
+		switch (EntityType.fromString(searchResult.type)) {
+			case ARTIST:
+				getArtistById(0, new ResponseCallback<ArtistWrapper>() {
+					public void onResult(Response<ArtistWrapper> response) {
+						cb.onResult(new Response<X>(response.hasSucceeded(), (X) response.getValue()));
+					}
+				});
+				break;
+			case LABEL:
+				getLabelById(0, new ResponseCallback<Label>() {
+					public void onResult(Response<Label> response) {
+						cb.onResult(new Response<X>(response.hasSucceeded(), (X) response.getValue()));
+					}
+				});
+				break;
+			case MASTER:
+				getMasterById(0, new ResponseCallback<Master>() {
+					public void onResult(Response<Master> response) {
+						cb.onResult(new Response<X>(response.hasSucceeded(), (X) response.getValue()));
+					}
+				});
+				break;
+			case RELEASE:
+				getReleaseById(0, new ResponseCallback<Release>() {
+					public void onResult(Response<Release> response) {
+						cb.onResult(new Response<X>(response.hasSucceeded(), (X) response.getValue()));
+					}
+				});
+				break;
+		}
+		cb.onResult(new Response<X>(false, null));
 	}
 	
 	public AuthenticationType getPrivilege() {
