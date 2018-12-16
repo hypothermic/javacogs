@@ -32,7 +32,7 @@ public class TokenAuthenticationMethod implements AuthenticationMethod {
 	}
 
 	public void applyHttpParameters(HttpsURLConnection connection) {
-		connection.addRequestProperty("Authorization", "Discogs token=" + token);
+		connection.setRequestProperty("Authorization", "Discogs token=" + token);
 	}
 
 	public void afterRequest() {
