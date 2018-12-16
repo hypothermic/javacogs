@@ -345,7 +345,7 @@ public class DatabaseHandler implements IHandler {
 	 * @return Entity, which can be casted into an ArtistWrapper, Label, Master or Release.
 	 */
 	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
-	public <X extends Object> void getEntityFromSearchResult(final SearchResult searchResult, final UncheckedCallback<X> cb) throws IOException {
+	public <X extends Entity> void getEntityFromSearchResult(final SearchResult searchResult, final UncheckedCallback<X> cb) throws IOException {
 		if (searchResult.id == 0 || searchResult.type == null) {
 			cb.onResult(new Response<X>(false, null));
 		}
