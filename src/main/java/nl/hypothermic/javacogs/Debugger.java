@@ -30,7 +30,7 @@ public class Debugger {
 				if (response.hasSucceeded()) {
 					for (SearchResult result : response.getValue()) {
 						try {
-							Javacogs.getInstance().getHandler(Handler.DATABASE).getEntityFromSearchResult(result, new ResponseCallback<Entity>() {
+							Javacogs.getInstance().getHandler(Handler.DATABASE).getEntityFromSearchResult(result, new UncheckedCallback<Entity>() {
 								public void onResult(Response<Entity> response) {
 									Entity e = response.getValue();
 									if (e instanceof ArtistGroup) {

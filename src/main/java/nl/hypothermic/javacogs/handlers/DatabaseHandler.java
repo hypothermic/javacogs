@@ -345,34 +345,34 @@ public class DatabaseHandler implements IHandler {
 	 * @return Entity, which can be casted into an ArtistWrapper, Label, Master or Release.
 	 */
 	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
-	public <X extends Entity> void getEntityFromSearchResult(final SearchResult searchResult, final ResponseCallback<X> cb) throws IOException {
-		if (searchResult.id == null || searchResult.type == null) {
+	public <X extends Object> void getEntityFromSearchResult(final SearchResult searchResult, final UncheckedCallback<X> cb) throws IOException {
+		if (searchResult.id == 0 || searchResult.type == null) {
 			cb.onResult(new Response<X>(false, null));
 		}
 		switch (EntityType.fromString(searchResult.type)) {
 			case ARTIST:
-				getArtistById(0, new ResponseCallback<ArtistWrapper>() {
+				getArtistById(searchResult.id, new ResponseCallback<ArtistWrapper>() {
 					public void onResult(Response<ArtistWrapper> response) {
 						cb.onResult(new Response<X>(response.hasSucceeded(), (X) response.getValue()));
 					}
 				});
 				break;
 			case LABEL:
-				getLabelById(0, new ResponseCallback<Label>() {
+				getLabelById(searchResult.id, new ResponseCallback<Label>() {
 					public void onResult(Response<Label> response) {
 						cb.onResult(new Response<X>(response.hasSucceeded(), (X) response.getValue()));
 					}
 				});
 				break;
 			case MASTER:
-				getMasterById(0, new ResponseCallback<Master>() {
+				getMasterById(searchResult.id, new ResponseCallback<Master>() {
 					public void onResult(Response<Master> response) {
 						cb.onResult(new Response<X>(response.hasSucceeded(), (X) response.getValue()));
 					}
 				});
 				break;
 			case RELEASE:
-				getReleaseById(0, new ResponseCallback<Release>() {
+				getReleaseById(searchResult.id, new ResponseCallback<Release>() {
 					public void onResult(Response<Release> response) {
 						cb.onResult(new Response<X>(response.hasSucceeded(), (X) response.getValue()));
 					}

@@ -17,6 +17,6 @@ public class SearchResult {
 	public String type;
 	
 	@JSONField(name="id")
-	public String id;
+	public int id;
 	
 }
