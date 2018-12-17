@@ -20,17 +20,17 @@ public class UserIdentityHandler implements IHandler {
 	}
 	
 	/**
-	 * Get a release by id.
+	 * Get a user profile by username.
 	 * 
 	 * <pre>
 	 * If authenticated as the requested user, the email key will be visible, and the num_list count will include the user’s private lists.
 	 * If authenticated as the requested user or the user’s collection/wantlist is public, the num_collection / num_wantlist keys will be visible.
 	 * </pre>
 	 * 
-	 * @param userName		The name of the user you want to request (ex. <code>rodneyfool</code>)
+	 * @param userName		The username of the user you want to request (ex. <code>rodneyfool</code>)
 	 * @param cb			The callback which will be called at result time
 	 * 
-	 * @return Release object
+	 * @return UserProfile object
 	 */
 	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
 	public void getProfileByUsername(final String userName, final ResponseCallback<UserProfile> cb) throws IOException {
