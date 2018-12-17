@@ -10,4 +10,11 @@ public abstract class Handler<HANDLER extends IHandler> {
             return DatabaseHandler.class;
         }
     };
+    
+    public static final Handler<UserIdentityHandler> USER_IDENTITY = new Handler<UserIdentityHandler>() {
+        @Override
+        public Class<UserIdentityHandler> getHandler() {
+            return UserIdentityHandler.class;
+        }
+    };
 }
