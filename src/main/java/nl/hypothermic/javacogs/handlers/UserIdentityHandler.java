@@ -67,7 +67,7 @@ public class UserIdentityHandler implements IHandler {
 	 * 
 	 * @return Entity[] objects which can be casted into ArtistGroup, ArtistMember, Release, Label, etc.
 	 */
-	@RequiredAuthenticationLevel(authType = AuthenticationType.PROTECTED)
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
 	public void getUserSubmissions(final UserProfile user, final UncheckedCallback<Entity[]> cb) throws IOException {
 		this.getUserSubmissions(user.getUserName(), cb);
 	}
@@ -81,7 +81,7 @@ public class UserIdentityHandler implements IHandler {
 	 * 
 	 * @return Entity[] objects which can be casted into ArtistGroup, ArtistMember, Release, Label, etc.
 	 */
-	@RequiredAuthenticationLevel(authType = AuthenticationType.PROTECTED)
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
 	public void getUserSubmissions(final String username, final UncheckedCallback<Entity[]> cb) throws IOException {
 		instance.threadpool.execute(new Runnable() {
 			public void run() {
