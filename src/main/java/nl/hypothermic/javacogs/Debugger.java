@@ -1,6 +1,7 @@
 package nl.hypothermic.javacogs;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import nl.hypothermic.javacogs.authentication.TokenAuthenticationMethod;
 import nl.hypothermic.javacogs.concurrency.ResponseCallback;
@@ -24,12 +25,12 @@ import nl.hypothermic.javacogs.network.Response;
 public class Debugger {
 	
 	public static void main(String[] args) throws Exception {
-		// sample: get entities by search and resolve each entity		
+		// sample: get user's submissions	
 		Javacogs.getInstance().setAuthenticationMethod(new TokenAuthenticationMethod("TOKEN"));
-		Javacogs.getInstance().getHandler(Handler.USER_IDENTITY).getProfileByUsername("Buurthuis", new ResponseCallback<UserProfile>() {
-			public void onResult(Response<UserProfile> response) {
+		Javacogs.getInstance().getHandler(Handler.USER_IDENTITY).getUserSubmissions("Buurthuis", new UncheckedCallback<Entity[]>() {
+			public void onResult(Response<Entity[]> response) {
 				if (response.hasSucceeded()) {
-					i(response.getValue().toString());
+					i(Arrays.toString(response.getValue()));
 				} else {
 					i("Response failed");
 				}
