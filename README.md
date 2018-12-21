@@ -4,16 +4,20 @@
 
 # Javacogs
 
-A professional asynchronous client library for the Discogs API v2.
+A professional client library for the Discogs API v2.  
+Compatible with all Java platforms including Android.
 
 # Features
+
 - Asynchronous networking and response
 - Easy authentication with one-time setup
 - Built-in adaptive rate limiting
 - Handler library structure for ease of use
 - Support for Java 6 and up
+- No external dependencies except for the JSON parser
 
 # Try it out
+
 Retrieve information about a release by ID:
 
 ```java
@@ -33,3 +37,41 @@ Javacogs.getInstance().getHandler(Handler.DATABASE)
 
 More examples are in the [examples](./src/examples/) directory.  
 Don't worry, they have proper documentation for beginners!
+
+# Authentication
+
+You can authenticate to Discogs using the Discogs Auth Flow:
+
+Authenticate using a **Token**:
+
+```
+Javacogs client = new Javacogs();
+client.setAuthenticationMethod(new TokenAuthenticationMethod("YOUR-TOKEN"));
+```
+
+Authenticate using a **Key** and **Secret**:
+
+```
+client.setAuthenticationMethod(new KeySecretAuthenticationMethod("KEY", "SECRET"));
+```
+
+To use **OAuth**, you will need to implement the AuthenticationMethod interface in your own implementation.  
+Then, simply call `client.setAuthenticationMethod(new YourOAuthImplementation(...));`
+
+# Handler structure
+
+At first glance, the handler system might seem a little complicated.  
+Here's a structure mapping to get you started:
+
+```
+new Javacogs() -> DatabaseHandler() -> getEntitiesBySearch()
+                                    -> getReleaseById()
+                                    -> getReleasesByArtist()
+                                    -> getReleasesByLabel()
+                                    -> getMasterById()
+                                    -> getArtistById()
+                                    -> getLabelById()
+                                    
+               -> UserIdentityHandler() -> getProfileByUsername()
+                                        -> getUserSubmissions()
+```
