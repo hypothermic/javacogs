@@ -45,7 +45,7 @@ public class UserCollectionHandler implements IHandler {
 	 * 
 	 * @return CollectionFolder array
 	 */
-	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	@RequiredAuthenticationLevel(authType = AuthenticationType.MIXED)
 	public void getFoldersByUser(final String userName, final UncheckedCallback<CollectionFolder[]> cb) throws IOException {
 		instance.threadpool.execute(new Runnable() {
 			public void run() {
@@ -72,7 +72,7 @@ public class UserCollectionHandler implements IHandler {
 	 * 
 	 * @return CollectionFolder object
 	 */
-	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	@RequiredAuthenticationLevel(authType = AuthenticationType.MIXED)
 	public void getFolderById(final String userName, final int folderId, final UncheckedCallback<CollectionFolder> cb) throws IOException {
 		if (folderId != 0 && instance.getAuthenticationMethod() instanceof NoopAuthenticationMethod) {
 			cb.onResult(new Response<CollectionFolder>(false, null));
