@@ -2,8 +2,12 @@ package nl.hypothermic.javacogs.entities;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
-public class Release extends Entity {
+public class Release extends ResolvableEntity<Release> {
 	
+	public Release() {
+		super(Release.class);
+	}
+
 	@JSONField(name="title")
 	public String title;
 	
@@ -161,6 +165,10 @@ public class Release extends Entity {
 
 	public short getReleaseYear() {
 		return this.releaseYear;
+	}
+	
+	@Override protected String getResolveUrl() {
+		return this.resourceUrl;
 	}
 	
 	@Override public String toString() {
