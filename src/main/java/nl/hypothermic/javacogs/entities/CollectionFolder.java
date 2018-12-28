@@ -12,7 +12,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  * </i>
  */
 public class CollectionFolder extends Entity {
-	
+
 	@JSONField(name="id")
 	public short id;
 	

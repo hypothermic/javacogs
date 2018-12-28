@@ -1,20 +1,11 @@
 package nl.hypothermic.javacogs;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 
-import nl.hypothermic.javacogs.authentication.TokenAuthenticationMethod;
-import nl.hypothermic.javacogs.concurrency.ResponseCallback;
 import nl.hypothermic.javacogs.concurrency.UncheckedCallback;
-import nl.hypothermic.javacogs.entities.ArtistGroup;
-import nl.hypothermic.javacogs.entities.ArtistMember;
 import nl.hypothermic.javacogs.entities.CollectionFolder;
-import nl.hypothermic.javacogs.entities.Entity;
-import nl.hypothermic.javacogs.entities.Label;
-import nl.hypothermic.javacogs.entities.Master;
-import nl.hypothermic.javacogs.entities.Release;
-import nl.hypothermic.javacogs.entities.SearchResult;
-import nl.hypothermic.javacogs.entities.UserProfile;
 import nl.hypothermic.javacogs.handlers.Handler;
 import nl.hypothermic.javacogs.network.Response;
 
