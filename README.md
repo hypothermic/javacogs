@@ -44,14 +44,14 @@ You can authenticate to Discogs using the Discogs Auth Flow:
 
 Authenticate using a **Token**:
 
-```
+```java
 Javacogs client = new Javacogs();
 client.setAuthenticationMethod(new TokenAuthenticationMethod("YOUR-TOKEN"));
 ```
 
 Authenticate using a **Key** and **Secret**:
 
-```
+```java
 client.setAuthenticationMethod(new KeySecretAuthenticationMethod("KEY", "SECRET"));
 ```
 
