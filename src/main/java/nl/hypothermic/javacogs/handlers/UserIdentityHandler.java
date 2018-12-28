@@ -59,7 +59,7 @@ public class UserIdentityHandler implements IHandler {
 	}
 	
 	/**
-	 * Get all of the user's submissions. 
+	 * <i>The Submissions resource represents all edits that a user makes to releases, labels, and artist.</i> 
 	 * This function is far from perfect and the code looks horrible, so it'll most likely be revamped soon.
 	 * 
 	 * @param user			UserProfile object of target user (warning: userName must not be null, it's unchecked!)
@@ -73,7 +73,7 @@ public class UserIdentityHandler implements IHandler {
 	}
 	
 	/**
-	 * Get all of the user's submissions. 
+	 * <i>The Submissions resource represents all edits that a user makes to releases, labels, and artist.</i> 
 	 * This function is far from perfect and the code looks horrible, so it'll most likely be revamped soon.
 	 * 
 	 * @param username		Username of the target user.
