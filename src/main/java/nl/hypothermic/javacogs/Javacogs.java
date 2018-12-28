@@ -10,6 +10,7 @@ import nl.hypothermic.javacogs.authentication.NoopAuthenticationMethod;
 import nl.hypothermic.javacogs.handlers.DatabaseHandler;
 import nl.hypothermic.javacogs.handlers.Handler;
 import nl.hypothermic.javacogs.handlers.IHandler;
+import nl.hypothermic.javacogs.handlers.UserCollectionHandler;
 import nl.hypothermic.javacogs.handlers.UserIdentityHandler;
 import nl.hypothermic.javacogs.network.HttpExecutor;
 import nl.hypothermic.javacogs.network.RateLimiter;
@@ -60,6 +61,7 @@ public class Javacogs {
     public Javacogs() {
         handlerList.add(new DatabaseHandler(this));
         handlerList.add(new UserIdentityHandler(this));
+        handlerList.add(new UserCollectionHandler(this));
     }
 
 	public AuthenticationMethod getAuthenticationMethod() {

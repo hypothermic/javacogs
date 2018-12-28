@@ -17,4 +17,11 @@ public abstract class Handler<HANDLER extends IHandler> {
             return UserIdentityHandler.class;
         }
     };
+    
+    public static final Handler<UserCollectionHandler> USER_COLLECTION = new Handler<UserCollectionHandler>() {
+        @Override
+        public Class<UserCollectionHandler> getHandler() {
+            return UserCollectionHandler.class;
+        }
+    };
 }
