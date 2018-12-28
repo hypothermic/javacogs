@@ -5,7 +5,11 @@ import com.alibaba.fastjson.annotation.JSONField;
 /**
  * Master (aka "Master Release")
  */
-public class Master extends Entity {
+public class Master extends ResolvableEntity {
+	
+	public Master() {
+		super(Master.class);
+	}
 	
 	// TODO: styles
 	
@@ -96,6 +100,10 @@ public class Master extends Entity {
 		return this.dataQuality;
 	}
 
+	@Override protected String getResolveUrl() {
+		return this.resourceUrl;
+	}
+	
 	@Override public String toString() {
 		return "Master [title=" + this.title + ", mainRelease=" + this.mainRelease + ", mainReleaseUrl=" + this.mainReleaseUrl + ", uri=" + this.uri + ", versionsUrl=" + this.versionsUrl + ", releaseYear=" + this.releaseYear + ", resourceUrl=" + this.resourceUrl + ", id=" + this.id + ", numForSale=" + this.numForSale + ", lowestPrice=" + this.lowestPrice + ", dataQuality=" + this.dataQuality + "]";
 	}
