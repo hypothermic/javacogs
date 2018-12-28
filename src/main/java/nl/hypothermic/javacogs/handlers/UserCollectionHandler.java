@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 import nl.hypothermic.javacogs.AuthenticationType;
 import nl.hypothermic.javacogs.Javacogs;
 import nl.hypothermic.javacogs.annotations.RequiredAuthenticationLevel;
+import nl.hypothermic.javacogs.authentication.NoopAuthenticationMethod;
 import nl.hypothermic.javacogs.concurrency.ResponseCallback;
 import nl.hypothermic.javacogs.concurrency.UncheckedCallback;
 import nl.hypothermic.javacogs.entities.ArtistGroup;
@@ -54,6 +55,36 @@ public class UserCollectionHandler implements IHandler {
 										 CollectionFolder.class).toArray(new CollectionFolder[] {})));
 				} catch (IOException x) {
 					cb.onResult(new Response<CollectionFolder[]>(false, null));
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Retrieve a folder from a user’s collection.
+	 * <pre>
+	 * If folderId is not 0, authentication as the collection owner is required.
+	 * </pre>
+	 * 
+	 * @param userName		The username of the user you want to request (ex. <code>rodneyfool</code>)
+	 * @param folderId		The ID of the folder to request (ex. <code>2</code>)
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return CollectionFolder object
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public void getFolderById(final String userName, final int folderId, final UncheckedCallback<CollectionFolder> cb) throws IOException {
+		if (folderId != 0 && instance.getAuthenticationMethod() instanceof NoopAuthenticationMethod) {
+			cb.onResult(new Response<CollectionFolder>(false, null));
+		}
+		instance.threadpool.execute(new Runnable() {
+			public void run() {
+				try {
+					cb.onResult(new Response<CollectionFolder>(true,
+						JSON.parseObject(instance.getHttpExecutor().get(Javacogs.apiUrlBase + "users/" + userName + "/collection/folders/" + folderId), 
+										 CollectionFolder.class)));
+				} catch (IOException x) {
+					cb.onResult(new Response<CollectionFolder>(false, null));
 				}
 			}
 		});
