@@ -15,8 +15,10 @@ import nl.hypothermic.javacogs.concurrency.ResponseCallback;
 import nl.hypothermic.javacogs.concurrency.UncheckedCallback;
 import nl.hypothermic.javacogs.entities.ArtistGroup;
 import nl.hypothermic.javacogs.entities.ArtistMember;
+import nl.hypothermic.javacogs.entities.CollectionFolder;
 import nl.hypothermic.javacogs.entities.Entity;
 import nl.hypothermic.javacogs.entities.Label;
+import nl.hypothermic.javacogs.entities.Master;
 import nl.hypothermic.javacogs.entities.Release;
 import nl.hypothermic.javacogs.entities.UserProfile;
 import nl.hypothermic.javacogs.network.Response;
@@ -30,31 +32,30 @@ public class UserCollectionHandler implements IHandler {
 	}
 	
 	/**
-	 * Get a user profile by username.
-	 * 
+	 * Retrieve a list of folders in a user’s collection.
 	 * <pre>
-	 * If authenticated as the requested user, the email key will be visible, and the num_list count will include the user’s private lists.
-	 * If authenticated as the requested user or the user’s collection/wantlist is public, the num_collection / num_wantlist keys will be visible.
-	 * </pre>
+	 * If you are not authenticated as the collection owner, only folder ID 0 (the “All” folder) 
+	 * will be visible (if the requested user’s collection is public).
+	 * If the collection has been made private by its owner, authentication as the collection owner is required. 
+	 * <pre>
 	 * 
 	 * @param userName		The username of the user you want to request (ex. <code>rodneyfool</code>)
 	 * @param cb			The callback which will be called at result time
 	 * 
-	 * @return UserProfile object
+	 * @return CollectionFolder array
 	 */
-	/*@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
-	public void getProfileByUsername(final String userName, final ResponseCallback<UserProfile> cb) throws IOException {
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public void getFoldersByUser(final String userName, final UncheckedCallback<CollectionFolder[]> cb) throws IOException {
 		instance.threadpool.execute(new Runnable() {
 			public void run() {
 				try {
-					cb.onResult(new Response<UserProfile>(true,
-						JSON.parseObject(instance.getHttpExecutor().get(Javacogs.apiUrlBase + "users/" + userName), 
-								UserProfile.class)));
+					cb.onResult(new Response<CollectionFolder[]>(true,
+						JSON.parseArray(new JSONObject(instance.getHttpExecutor().get(Javacogs.apiUrlBase + "users/" + userName + "/collection/folders")).getJSONArray("folders").toString(), 
+										 CollectionFolder.class).toArray(new CollectionFolder[] {})));
 				} catch (IOException x) {
-					x.printStackTrace();
-					cb.onResult(new Response<UserProfile>(false, null));
+					cb.onResult(new Response<CollectionFolder[]>(false, null));
 				}
 			}
 		});
-	}*/
+	}
 }

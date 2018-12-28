@@ -8,6 +8,7 @@ import nl.hypothermic.javacogs.concurrency.ResponseCallback;
 import nl.hypothermic.javacogs.concurrency.UncheckedCallback;
 import nl.hypothermic.javacogs.entities.ArtistGroup;
 import nl.hypothermic.javacogs.entities.ArtistMember;
+import nl.hypothermic.javacogs.entities.CollectionFolder;
 import nl.hypothermic.javacogs.entities.Entity;
 import nl.hypothermic.javacogs.entities.Label;
 import nl.hypothermic.javacogs.entities.Master;
@@ -26,13 +27,13 @@ public class Debugger {
 	
 	public static void main(String[] args) throws Exception {
 		// sample: get user's submissions	
-		Javacogs.getInstance().setAuthenticationMethod(new TokenAuthenticationMethod("TOKEN"));
-		Javacogs.getInstance().getHandler(Handler.USER_IDENTITY).getUserSubmissions("Buurthuis", new UncheckedCallback<Entity[]>() {
-			public void onResult(Response<Entity[]> response) {
+		//Javacogs.getInstance().setAuthenticationMethod(new TokenAuthenticationMethod("TOKEN"));
+		Javacogs.getInstance().getHandler(Handler.USER_COLLECTION).getFoldersByUser("Buurthuis", new UncheckedCallback<CollectionFolder[]>() {
+			public void onResult(Response<CollectionFolder[]> response) {
 				if (response.hasSucceeded()) {
 					i(Arrays.toString(response.getValue()));
 				} else {
-					i("Response failed");
+					i("Response failed.");
 				}
 			}
 		});
