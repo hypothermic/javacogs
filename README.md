@@ -38,6 +38,35 @@ Javacogs.getInstance().getHandler(Handler.DATABASE)
 More examples are in the [examples](./src/examples/) directory.  
 Don't worry, they have proper documentation for beginners!
 
+### Maven dependency
+```xml
+<repository>
+  <id>javacogs-mvn-repo</id>
+  <url>https://raw.github.com/hypothermic/javacogs/mvn-repo/</url>
+</repository>
+
+<dependency>
+  <groupId>nl.hypothermic</groupId>
+  <artifactId>javacogs</artifactId>
+  <!-- If you're using Maven3, specify version tag -->
+  <version>LATEST</version>
+</dependency>
+```
+
+### Gradle dependency
+```gradle
+repositories {
+    maven {
+        url "https://raw.github.com/hypothermic/javacogs/mvn-repo/"
+    }
+}
+
+dependencies {
+    // Note: use 'api' instead of 'compile' if you're using Android Studio.
+    compile group: 'nl.hypothermic', name: 'javacogs', version: '1.0.17-RC1'
+}
+```
+
 # Authentication
 
 You can authenticate to Discogs using the Discogs Auth Flow:
