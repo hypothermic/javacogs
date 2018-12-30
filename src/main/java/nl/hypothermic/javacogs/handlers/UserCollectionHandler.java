@@ -89,4 +89,29 @@ public class UserCollectionHandler implements IHandler {
 			}
 		});
 	}
+	
+	/**
+	 * Delete a folder from a user’s collection. A folder must be empty before it can be deleted.
+	 * <pre>
+	 * Authentication as the collection owner is required.
+	 * </pre>
+	 * 
+	 * @param userName		The username of the user you want to modify (ex. <code>rodneyfool</code>)
+	 * @param folderId		The ID of the folder to delete (ex. <code>3</code>)
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return Boolean if succeeded or not (will not be null).
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PROTECTED)
+	public void deleteFolderById(final String userName, final int folderId, final UncheckedCallback<Boolean> cb) throws IOException {
+		instance.threadpool.execute(new Runnable() {
+			public void run() {
+				try {
+					cb.onResult(new Response<Boolean>(true, instance.getHttpExecutor().delete(Javacogs.apiUrlBase + "users/" + userName + "/collection/folders/" + folderId)));
+				} catch (IOException x) {
+					cb.onResult(new Response<Boolean>(false, false));
+				}
+			}
+		});
+	}
 }
