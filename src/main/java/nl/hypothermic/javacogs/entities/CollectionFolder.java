@@ -2,6 +2,9 @@ package nl.hypothermic.javacogs.entities;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
+import nl.hypothermic.javacogs.Javacogs;
+import nl.hypothermic.javacogs.handlers.Handler;
+
 /**
  * A collection is arranged into folders.<br>
  * <br>

@@ -107,9 +107,37 @@ public class UserCollectionHandler implements IHandler {
 		instance.threadpool.execute(new Runnable() {
 			public void run() {
 				try {
-					cb.onResult(new Response<Boolean>(true, instance.getHttpExecutor().delete(Javacogs.apiUrlBase + "users/" + userName + "/collection/folders/" + folderId)));
+					cb.onResult(new Response<Boolean>(true, 
+							instance.getHttpExecutor().delete(Javacogs.apiUrlBase + "users/" + userName + "/collection/folders/" + folderId)));
 				} catch (IOException x) {
 					cb.onResult(new Response<Boolean>(false, false));
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Get list the of items in a folder in a user’s collection.
+	 * 
+	 * @param userName		The username of the folder's owner (ex. <code>rodneyfool</code>)
+	 * @param folderId		The ID of the folder (ex. <code>0</code>)
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return Boolean if succeeded or not (will not be null).
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public void getFolderContents(final String userName, final int folderId, final UncheckedCallback<Release[]> cb) throws IOException {
+		instance.threadpool.execute(new Runnable() {
+			public void run() {
+				try {
+					cb.onResult(new Response<Release[]>(true,
+							(Release[]) JSON.parseArray(new JSONObject(
+									instance.getHttpExecutor().get(Javacogs.apiUrlBase + "users/" + userName + "/collection/folders/" + folderId + "/releases"))
+															.getJSONArray("releases").toString(), 
+														Release.class)
+						.toArray(new Release[] {})));
+				} catch (IOException x) {
+					cb.onResult(new Response<Release[]>(false, null));
 				}
 			}
 		});
