@@ -14,9 +14,11 @@ import nl.hypothermic.javacogs.annotations.RequiredAuthenticationLevel;
 import nl.hypothermic.javacogs.authentication.NoopAuthenticationMethod;
 import nl.hypothermic.javacogs.concurrency.ResponseCallback;
 import nl.hypothermic.javacogs.concurrency.UncheckedCallback;
+import nl.hypothermic.javacogs.constants.SortOrder;
 import nl.hypothermic.javacogs.entities.ArtistGroup;
 import nl.hypothermic.javacogs.entities.ArtistMember;
 import nl.hypothermic.javacogs.entities.CollectionFolder;
+import nl.hypothermic.javacogs.entities.CollectionRelease;
 import nl.hypothermic.javacogs.entities.Entity;
 import nl.hypothermic.javacogs.entities.Label;
 import nl.hypothermic.javacogs.entities.Master;
@@ -123,21 +125,70 @@ public class UserCollectionHandler implements IHandler {
 	 * @param folderId		The ID of the folder (ex. <code>0</code>)
 	 * @param cb			The callback which will be called at result time
 	 * 
-	 * @return Boolean if succeeded or not (will not be null).
+	 * @return CollectionRelease[], which can be resolved to Release[] if you need.
 	 */
 	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
-	public void getFolderContents(final String userName, final int folderId, final UncheckedCallback<Release[]> cb) throws IOException {
+	public void getFolderContents(final String userName, final int folderId, final UncheckedCallback<CollectionRelease[]> cb) throws IOException {
+		this.getFolderContents(userName, folderId, null, null, cb);
+	}
+	
+	/**
+	 * Get list the of items in a folder in a user’s collection.
+	 * 
+	 * @param userName		The username of the folder's owner (ex. <code>rodneyfool</code>)
+	 * @param folderId		The ID of the folder (ex. <code>0</code>)
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return CollectionRelease[], which can be resolved to Release[] if you need.
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public void getFolderContents(final String userName, final int folderId, 
+														 final SortOrder order, final UncheckedCallback<CollectionRelease[]> cb) throws IOException {
+		this.getFolderContents(userName, folderId, null, order, cb);
+	}
+	
+	/**
+	 * Get list the of items in a folder in a user’s collection.
+	 * 
+	 * @param userName		The username of the folder's owner (ex. <code>rodneyfool</code>)
+	 * @param folderId		The ID of the folder (ex. <code>0</code>)
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return CollectionRelease[], which can be resolved to Release[] if you need.
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public void getFolderContents(final String userName, final int folderId, 
+														 final String sort, final UncheckedCallback<CollectionRelease[]> cb) throws IOException {
+		this.getFolderContents(userName, folderId, sort, null, cb);
+	}
+	
+	
+	/**
+	 * Get list the of items in a folder in a user’s collection.
+	 * 
+	 * @param userName		The username of the folder's owner (ex. <code>rodneyfool</code>)
+	 * @param folderId		The ID of the folder (ex. <code>0</code>)
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return CollectionRelease[], which can be resolved to Release[] if you need.
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public void getFolderContents(final String userName, final int folderId, final String sort, 
+								 						 final SortOrder order, final UncheckedCallback<CollectionRelease[]> cb) throws IOException {
 		instance.threadpool.execute(new Runnable() {
 			public void run() {
 				try {
-					cb.onResult(new Response<Release[]>(true,
-							(Release[]) JSON.parseArray(new JSONObject(
-									instance.getHttpExecutor().get(Javacogs.apiUrlBase + "users/" + userName + "/collection/folders/" + folderId + "/releases"))
-															.getJSONArray("releases").toString(), 
-														Release.class)
-						.toArray(new Release[] {})));
+					cb.onResult(new Response<CollectionRelease[]>(true, 
+							(CollectionRelease[]) JSON.parseArray(new JSONObject(
+									instance.getHttpExecutor().get(Javacogs.apiUrlBase + "users/" + userName + 
+									 											 		 "/collection/folders/" + folderId + 
+									 											 		 "/releases" + 
+									 											 		 (sort  != null ? sort                   : "") + 
+									 											 		 (order != null ? order.getAbbrevation() : "")))
+																  .getJSONArray("releases").toString(), 
+												  CollectionRelease.class).toArray(new CollectionRelease[] {})));
 				} catch (IOException x) {
-					cb.onResult(new Response<Release[]>(false, null));
+					cb.onResult(new Response<CollectionRelease[]>(false, null));
 				}
 			}
 		});

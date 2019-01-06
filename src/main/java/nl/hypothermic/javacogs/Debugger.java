@@ -2,11 +2,8 @@ package nl.hypothermic.javacogs;
 
 import java.util.Arrays;
 
-import nl.hypothermic.javacogs.authentication.TokenAuthenticationMethod;
-import nl.hypothermic.javacogs.concurrency.ResponseCallback;
 import nl.hypothermic.javacogs.concurrency.UncheckedCallback;
-import nl.hypothermic.javacogs.entities.CollectionFolder;
-import nl.hypothermic.javacogs.entities.Release;
+import nl.hypothermic.javacogs.entities.CollectionRelease;
 import nl.hypothermic.javacogs.handlers.Handler;
 import nl.hypothermic.javacogs.network.Response;
 
@@ -18,12 +15,13 @@ import nl.hypothermic.javacogs.network.Response;
 public class Debugger {
 	
 	public static void main(String[] args) throws Exception {
-		// sample: get user's submissions	
-		Javacogs.getInstance().setAuthenticationMethod(new TokenAuthenticationMethod(System.getenv("debug.token")));
-		Javacogs.getInstance().getHandler(Handler.USER_COLLECTION).getFolderContents("Buurthuis", 0, new UncheckedCallback<Release[]>() {
-			public void onResult(Response<Release[]> response) {
+		// sample: get user's "All" folder
+		Javacogs.getInstance().getHandler(Handler.USER_COLLECTION).getFolderContents("Buurthuis", 0, new UncheckedCallback<CollectionRelease[]>() {
+			public void onResult(Response<CollectionRelease[]> response) {
 				if (response.hasSucceeded()) {
-					i(Arrays.toString(response.getValue()));
+					for (CollectionRelease iter : response.getValue()) {
+						i(iter.toString());
+					}
 				} else {
 					i("Response failed.");
 				}
