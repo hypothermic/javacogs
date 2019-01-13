@@ -31,6 +31,10 @@ public class HttpExecutor {
 	public String get(String address) throws IOException {
 		return this.execute(address, "GET", true);
 	}
+	
+	public String post(String address) throws IOException {
+		return this.execute(address, "POST", true);
+	}
 
 	public boolean delete(String address) throws IOException {
 		return this.execute(address, "DELETE", false).equals("204");
