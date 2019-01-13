@@ -19,6 +19,7 @@ import nl.hypothermic.javacogs.entities.ArtistGroup;
 import nl.hypothermic.javacogs.entities.ArtistMember;
 import nl.hypothermic.javacogs.entities.CollectionFolder;
 import nl.hypothermic.javacogs.entities.CollectionRelease;
+import nl.hypothermic.javacogs.entities.CollectionValue;
 import nl.hypothermic.javacogs.entities.Entity;
 import nl.hypothermic.javacogs.entities.Label;
 import nl.hypothermic.javacogs.entities.Master;
@@ -223,7 +224,7 @@ public class UserCollectionHandler implements IHandler {
 	}
 	
 	/**
-	 * Add a release to a folder in a user's collection
+	 * Delete a release from a folder in a user's collection
 	 * 
 	 * @param userName		The username of the folder's owner (ex. <code>rodneyfool</code>)
 	 * @param folderId		The ID of the folder (ex. <code>0</code>)
@@ -247,6 +248,32 @@ public class UserCollectionHandler implements IHandler {
 				} catch (IOException x) {
 					x.printStackTrace();
 					cb.onResult(new Response<Boolean>(false, false));
+				}
+			}
+		});
+	}
+	
+	/**
+	 * Get the minimum, median, and maximum value of a user’s collection.<br>
+	 * <br>
+	 * It is required to authenticate as the collection owner.
+	 * 
+	 * @param userName		The username of the collection's owner (ex. <code>rodneyfool</code>)
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return CollectionValue object, which contains fields <code>minimum</code>, <code>median</code> and <code>maximum</code>.
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PROTECTED)
+	public void getCollectionValue(final String userName, final ResponseCallback<CollectionValue> cb) throws IOException {
+		instance.threadpool.execute(new Runnable() {
+			public void run() {
+				try {
+					cb.onResult(new Response<CollectionValue>(true, 
+							JSON.parseObject(instance.getHttpExecutor().get(Javacogs.apiUrlBase + "users/" + userName + 
+									 											 				  "/collection/value"), 
+											 CollectionValue.class)));
+				} catch (IOException x) {
+					cb.onResult(new Response<CollectionValue>(false, null));
 				}
 			}
 		});

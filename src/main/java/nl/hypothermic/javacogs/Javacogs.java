@@ -42,7 +42,7 @@ public class Javacogs {
 	
 	public static final int VERSION_MINOR = 0;
 	
-	public static final int VERSION_PATCH = 16;
+	public static final int VERSION_PATCH = 17;
 	
 	private final AtomicInteger counter = new AtomicInteger();
 	public final ExecutorService threadpool = Executors.newCachedThreadPool(new ThreadFactory() {
