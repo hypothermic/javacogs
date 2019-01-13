@@ -193,4 +193,32 @@ public class UserCollectionHandler implements IHandler {
 			}
 		});
 	}
+	
+	/**
+	 * Add a release to a folder in a user's collection
+	 * 
+	 * @param userName		The username of the folder's owner (ex. <code>rodneyfool</code>)
+	 * @param folderId		The ID of the folder (ex. <code>0</code>)
+	 * @param releaseId		The ID of the release (ex. <code>130076</code>)
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return Boolean if succeeded or not (will not be null).
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PROTECTED)
+	public void addReleaseToFolder(final String userName, final int folderId, final int releaseId, 
+																					final UncheckedCallback<Boolean> cb) throws IOException {
+		instance.threadpool.execute(new Runnable() {
+			public void run() {
+				try {
+					cb.onResult(new Response<Boolean>(true, 
+							instance.getHttpExecutor().post(Javacogs.apiUrlBase + "users/" + userName +
+																				  "/collection/folders/" + folderId +
+																				  "/releases/" + releaseId).charAt(0) != '0'));
+				} catch (IOException x) {
+					x.printStackTrace();
+					cb.onResult(new Response<Boolean>(false, false));
+				}
+			}
+		});
+	}
 }
