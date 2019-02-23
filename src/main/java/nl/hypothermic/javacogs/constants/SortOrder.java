@@ -8,12 +8,12 @@ public enum SortOrder {
 	;
 	
 	/**
-	 * See {@link nl.hypothermic.javacogs.constants.Condition#getEnglishName()}
+	 * See {@link nl.hypothermic.javacogs.constants.MediaCondition#getEnglishName()}
 	 */
 	private final String englishName;
 	
 	/**
-	 * See {@link nl.hypothermic.javacogs.constants.Condition#getAbbrevation()}
+	 * See {@link nl.hypothermic.javacogs.constants.MediaCondition#getAbbrevation()}
 	 */
 	private final String abbrevation;
 	

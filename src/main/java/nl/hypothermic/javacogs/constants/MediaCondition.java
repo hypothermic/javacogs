@@ -1,6 +1,6 @@
 package nl.hypothermic.javacogs.constants;
 
-public enum Condition {
+public enum MediaCondition {
 	
 	MINT(			"Mint (M)", 			"Mint", 			"M"		),
 	NEAR_MINT(		"Near Mint (NM or M-)", "Near Mint", 		"NM"	),
@@ -14,21 +14,21 @@ public enum Condition {
 	;
 	
 	/**
-	 * See {@link nl.hypothermic.javacogs.constants.Condition#getDescription()}
+	 * See {@link nl.hypothermic.javacogs.constants.MediaCondition#getDescription()}
 	 */
 	private final String description;
 	
 	/**
-	 * See {@link nl.hypothermic.javacogs.constants.Condition#getEnglishName()}
+	 * See {@link nl.hypothermic.javacogs.constants.MediaCondition#getEnglishName()}
 	 */
 	private final String name;
 	
 	/**
-	 * See {@link nl.hypothermic.javacogs.constants.Condition#getAbbrevation()}
+	 * See {@link nl.hypothermic.javacogs.constants.MediaCondition#getAbbrevation()}
 	 */
 	private final String abbrevation;
 	
-	Condition(String description, String name, String abbrevation) {
+	MediaCondition(String description, String name, String abbrevation) {
 		this.description = description;
 		this.name = name;
 		this.abbrevation = abbrevation;
