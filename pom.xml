@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>nl.hypothermic</groupId>
 	<artifactId>javacogs</artifactId>
-	<version>1.0.17-RC1</version>
+	<version>1.0.18</version>
 	<name>Javacogs</name>
 	<description>API Client for Discogs</description>
 
