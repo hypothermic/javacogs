@@ -14,8 +14,6 @@ import nl.hypothermic.javacogs.exception.RateLimitReachedException;
 
 public class HttpExecutor {
 
-	public static final String USER_AGENT = "Javacogs/" + Javacogs.VERSION_MAJOR + "." + Javacogs.VERSION_MINOR + "." + Javacogs.VERSION_PATCH + " +https://github.com/hypothermic/javacogs";
-
 	private final Javacogs instance;
 
 	public HttpExecutor(final Javacogs instance) {
@@ -58,7 +56,7 @@ public class HttpExecutor {
 		conn = (HttpsURLConnection) url.openConnection();
 		conn.setRequestMethod(protocol);
 		conn.setRequestProperty("Accept", "application/vnd.discogs.v2.plaintext+json");
-		conn.setRequestProperty("User-Agent", USER_AGENT);
+		conn.setRequestProperty("User-Agent", Javacogs.USER_AGENT);
 
 		am.applyHttpParameters(conn);
 		instance.getRateLimiter().fetchRegulationsFrom(conn);

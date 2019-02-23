@@ -36,13 +36,32 @@ public class Javacogs {
 		return instance;
 	}
 	
-	public static final String apiUrlBase = "https://api.discogs.com/";
-	
+	/**
+	 * The major version.<br>
+	 * X.0.00
+	 */
 	public static final int VERSION_MAJOR = 1;
 	
+	/**
+	 * The minor version.<br>
+	 * 0.X.00
+	 */
 	public static final int VERSION_MINOR = 0;
-	
+	/**
+	 * The patch version.<br>
+	 * 0.0.XX
+	 */
 	public static final int VERSION_PATCH = 17;
+	
+	/**
+	 * The full path to the RESTful interface, including the protocol.
+	 */
+	public static final String apiUrlBase = "https://api.discogs.com/";
+	
+	/**
+	 * The User-Agent to identify the application.
+	 */
+	public static final String USER_AGENT = "Javacogs/" + VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH + " +https://github.com/hypothermic/javacogs";
 	
 	private final AtomicInteger counter = new AtomicInteger();
 	public final ExecutorService threadpool = Executors.newCachedThreadPool(new ThreadFactory() {
