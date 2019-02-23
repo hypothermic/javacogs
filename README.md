@@ -13,7 +13,7 @@ Compatible with all Java platforms including Android.
 - Easy authentication with one-time setup
 - Built-in adaptive rate limiting
 - Handler library structure for ease of use
-- Support for Java 6 and up
+- Support for Java 6 and up (and Kotlin, of course!)
 - No external dependencies except for the JSON parser
 
 # Try it out
@@ -48,8 +48,7 @@ Don't worry, they have proper documentation for beginners!
 <dependency>
   <groupId>nl.hypothermic</groupId>
   <artifactId>javacogs</artifactId>
-  <!-- If you're using Maven3, specify version tag -->
-  <version>LATEST</version>
+  <version>[1.0.18,)</version>
 </dependency>
 ```
 
@@ -84,12 +83,13 @@ Authenticate using a **Key** and **Secret**:
 client.setAuthenticationMethod(new KeySecretAuthenticationMethod("KEY", "SECRET"));
 ```
 
-To use **OAuth**, you will need to implement the AuthenticationMethod interface in your own implementation.  
+To use **OAuth**, you will need to implement the `AuthenticationMethod` interface in your own implementation.  
 Then, simply call `client.setAuthenticationMethod(new YourOAuthImplementation(...));`
 
 # Handler structure
 
-At first glance, the handler system might seem a little complicated.  
+At first glance, the handler system might seem a little complicated.
+You will soon find out that this design choice is extremely easy to use though.
 Here's a structure mapping to get you started:
 
 ```
@@ -101,6 +101,14 @@ new Javacogs() -> DatabaseHandler() -> getEntitiesBySearch()
                                     -> getArtistById()
                                     -> getLabelById()
                                     
+               -> UserCollectionHandler() -> getFolderById()
+                                          -> getFoldersByUser()
+                                          -> getFolderContents()
+                                          -> getCollectionValue()
+                                          -> deleteFolderById()
+                                          -> addReleaseToFolder()
+                                          -> deleteReleaseFromFolder()
+                                             
                -> UserIdentityHandler() -> getProfileByUsername()
                                         -> getUserSubmissions()
 ```
