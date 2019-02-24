@@ -13,6 +13,7 @@ import nl.hypothermic.javacogs.Javacogs;
 import nl.hypothermic.javacogs.annotations.RequiredAuthenticationLevel;
 import nl.hypothermic.javacogs.concurrency.ResponseCallback;
 import nl.hypothermic.javacogs.concurrency.UncheckedCallback;
+import nl.hypothermic.javacogs.constants.SortOrder;
 import nl.hypothermic.javacogs.entities.ArtistGroup;
 import nl.hypothermic.javacogs.entities.ArtistMember;
 import nl.hypothermic.javacogs.entities.Entity;
@@ -90,6 +91,60 @@ public class UserIdentityHandler implements IHandler {
 					JSONObject submissions = new JSONObject(instance.getHttpExecutor()
 																.get(Javacogs.apiUrlBase + "users/" + username + "/submissions"))
 												.getJSONObject("submissions");
+					entities.addAll(JSON.parseArray(submissions.getJSONArray("artists").toString(), ArtistGroup.class));
+					entities.addAll(JSON.parseArray(submissions.getJSONArray("artists").toString(), ArtistMember.class));
+					
+					Iterator<Entity> it = entities.iterator();
+					while (it.hasNext()) {
+					    Entity entity = it.next();
+					    if (entity instanceof ArtistGroup) {
+							if (((ArtistGroup) entity)._members == null) {
+								it.remove();
+							}
+						} else if (entity instanceof ArtistMember) {
+							if (((ArtistMember) entity).profileText == null) {
+								it.remove();
+							}
+						}
+					}
+					
+					entities.addAll(JSON.parseArray(submissions.getJSONArray("labels").toString(), Label.class));
+					entities.addAll(JSON.parseArray(submissions.getJSONArray("releases").toString(), Release.class));
+					
+					cb.onResult(new Response<Entity[]>(true, entities.toArray(new Entity[] {})));
+				} catch (IOException x) {
+					cb.onResult(new Response<Entity[]>(false, null));
+				}
+			}
+		});
+	}
+	
+	/**
+	 * <i>The Contributions resource represents releases, labels, and artists submitted by a user.</i> 
+	 * This function is far from perfect and the code looks horrible, so it'll most likely be revamped soon.
+	 * 
+	 * @param username		Username of the target user.
+	 * @param sort			Sorting key.
+	 * @param order			Sort order key.
+	 * @param cb			The callback which will be called at result time
+	 * 
+	 * @return Entity[] objects which can be casted into ArtistGroup, ArtistMember, Release, Label, etc.
+	 */
+	@RequiredAuthenticationLevel(authType = AuthenticationType.PUBLIC)
+	public void getUserContributions(final String username, final String sort, final SortOrder order, 
+																				final UncheckedCallback<Entity[]> cb) throws IOException {
+		instance.threadpool.execute(new Runnable() {
+			public void run() {
+				try {
+					ArrayList<Entity> entities = new ArrayList<Entity>();
+					JSONObject submissions = new JSONObject(instance.getHttpExecutor()
+																.get(Javacogs.apiUrlBase + "users/" + username + 
+																						   "/contributions" +
+																						   (sort  == null && order == null ? ""             : "?") +
+																						   (sort  != null                  ? "sort=" + sort :  "") +
+																						   (sort  != null && order != null ? "&"            :  "") +
+																						   (order != null                  ? "order=" + order.getAbbrevation() : "")))
+												.getJSONObject("contributions");
 					entities.addAll(JSON.parseArray(submissions.getJSONArray("artists").toString(), ArtistGroup.class));
 					entities.addAll(JSON.parseArray(submissions.getJSONArray("artists").toString(), ArtistMember.class));
 					

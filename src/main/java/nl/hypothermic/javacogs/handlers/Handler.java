@@ -24,4 +24,11 @@ public abstract class Handler<HANDLER extends IHandler> {
             return UserCollectionHandler.class;
         }
     };
+    
+    public static final Handler<UserWantlistHandler> USER_WANTLIST = new Handler<UserWantlistHandler>() {
+        @Override
+        public Class<UserWantlistHandler> getHandler() {
+            return UserWantlistHandler.class;
+        }
+    };
 }

@@ -108,7 +108,12 @@ new Javacogs() -> DatabaseHandler() -> getEntitiesBySearch()
                                           -> deleteFolderById()
                                           -> addReleaseToFolder()
                                           -> deleteReleaseFromFolder()
-                                             
+                                          
+               -> UserWantlistHandler() -> getWantlistByUsername()
+                                        -> addReleaseToWantlist()
+                                        -> deleteReleaseFromWantlist()
+                                           
                -> UserIdentityHandler() -> getProfileByUsername()
                                         -> getUserSubmissions()
+                                        -> getUserContributions()
 ```

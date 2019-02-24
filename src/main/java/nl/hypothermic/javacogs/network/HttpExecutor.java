@@ -37,6 +37,10 @@ public class HttpExecutor {
 	public boolean delete(String address) throws IOException {
 		return this.execute(address, "DELETE", false).equals("204");
 	}
+	
+	public boolean put(String address) throws IOException {
+		return this.execute(address, "PUT", false).equals("201");
+	}
 
 	private String execute(String address, String protocol, boolean read) throws IOException {
 		// I just felt like writing K&R C... good old times.
