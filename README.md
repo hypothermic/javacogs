@@ -116,4 +116,8 @@ new Javacogs() -> DatabaseHandler() -> getEntitiesBySearch()
                -> UserIdentityHandler() -> getProfileByUsername()
                                         -> getUserSubmissions()
                                         -> getUserContributions()
+                                        
+               -> ApiStatisticsHandler() -> getLabelsCount()
+                                         -> getReleasesCount()
+                                         -> getArtistsCount()
 ```
