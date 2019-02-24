@@ -1,12 +1,7 @@
 package nl.hypothermic.javacogs;
 
-import java.util.Arrays;
-
 import nl.hypothermic.javacogs.authentication.TokenAuthenticationMethod;
-import nl.hypothermic.javacogs.concurrency.ResponseCallback;
 import nl.hypothermic.javacogs.concurrency.UncheckedCallback;
-import nl.hypothermic.javacogs.entities.CollectionRelease;
-import nl.hypothermic.javacogs.entities.Release;
 import nl.hypothermic.javacogs.handlers.Handler;
 import nl.hypothermic.javacogs.network.Response;
 
@@ -18,13 +13,30 @@ import nl.hypothermic.javacogs.network.Response;
 public class Debugger {
 	
 	public static void main(String[] args) throws Exception {
-		// sample: get user's wantlist and print individually
-		// (this is a bad example, use .resolve() if you need in-sync resolve!!)
+		// sample: get amount of labels in the database using the ApiStatisticsHandler
 		Javacogs.getInstance().setAuthenticationMethod(new TokenAuthenticationMethod(System.getenv("debug.token")));
-		Javacogs.getInstance().getHandler(Handler.USER_WANTLIST).addReleaseToWantlist("Buurthuis", 130076, "MyNotesPlease", (short) 5, new UncheckedCallback<Boolean>() {
-			@Override public void onResult(Response<Boolean> response) {
+		Javacogs.getInstance().getHandler(Handler.STATISTICS).getLabelsCount(new UncheckedCallback<Long>() {
+			@Override public void onResult(Response<Long> response) {
 				if (response.hasSucceeded()) {
-					i("Result: " + response.getValue());
+					i("Total amount of labels: " + response.getValue());
+				} else {
+					i("Response failed");
+				}
+			}
+		});
+		Javacogs.getInstance().getHandler(Handler.STATISTICS).getReleasesCount(new UncheckedCallback<Long>() {
+			@Override public void onResult(Response<Long> response) {
+				if (response.hasSucceeded()) {
+					i("Total amount of releases: " + response.getValue());
+				} else {
+					i("Response failed");
+				}
+			}
+		});
+		Javacogs.getInstance().getHandler(Handler.STATISTICS).getArtistsCount(new UncheckedCallback<Long>() {
+			@Override public void onResult(Response<Long> response) {
+				if (response.hasSucceeded()) {
+					i("Total amount of artists: " + response.getValue());
 				} else {
 					i("Response failed");
 				}

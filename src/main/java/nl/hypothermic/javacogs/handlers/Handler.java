@@ -31,4 +31,11 @@ public abstract class Handler<HANDLER extends IHandler> {
             return UserWantlistHandler.class;
         }
     };
+    
+    public static final Handler<ApiStatisticsHandler> STATISTICS = new Handler<ApiStatisticsHandler>() {
+        @Override
+        public Class<ApiStatisticsHandler> getHandler() {
+            return ApiStatisticsHandler.class;
+        }
+    };
 }

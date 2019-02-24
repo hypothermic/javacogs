@@ -1,12 +1,14 @@
 package nl.hypothermic.javacogs;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import nl.hypothermic.javacogs.authentication.NoopAuthenticationMethod;
+import nl.hypothermic.javacogs.handlers.ApiStatisticsHandler;
 import nl.hypothermic.javacogs.handlers.DatabaseHandler;
 import nl.hypothermic.javacogs.handlers.Handler;
 import nl.hypothermic.javacogs.handlers.IHandler;
@@ -26,10 +28,10 @@ public class Javacogs {
 	/**
 	 * Get the global instance.<br>
 	 * <br>
-	 * It is not neccesary to use this instance, you can also create a new one by using
+	 * It is not neccesary to use this instance, you may also create a new one by using
 	 * <pre>
 	 * <code>
-	 * 	Javacogs instance = new Javacogs();
+	 * Javacogs instance = new Javacogs();
 	 * </code>
 	 * </pre>
 	 */
@@ -65,24 +67,46 @@ public class Javacogs {
 	public static final String USER_AGENT = "Javacogs/" + VERSION_MAJOR + "." + VERSION_MINOR + "." + VERSION_PATCH + " +https://github.com/hypothermic/javacogs";
 	
 	private final AtomicInteger counter = new AtomicInteger();
+	
+	/**
+	 * The main thread pool which the handlers will use.
+	 */
 	public final ExecutorService threadpool = Executors.newCachedThreadPool(new ThreadFactory() {
 		public Thread newThread(Runnable r) {
 			return new Thread(r, "Javacogs-" + counter.incrementAndGet());
 		}
 	});
 	
-	private final ArrayList<IHandler> handlerList = new ArrayList<IHandler>();
+	/**
+	 * List of included handlers. Cannot be modified after class construction.
+	 */
+	private final List<IHandler> handlerList;
 	
 	private AuthenticationMethod authMethod = new NoopAuthenticationMethod();
 	private RateLimiter rateLimiter = new RateLimiter();
 	
 	private HttpExecutor httpExecutor = new HttpExecutor(this);
 
+	/**
+	 * Construct a Javacogs instance with all included handlers.
+	 */
     public Javacogs() {
+    	handlerList = new ArrayList<IHandler>();
         handlerList.add(new DatabaseHandler(this));
         handlerList.add(new UserIdentityHandler(this));
         handlerList.add(new UserCollectionHandler(this));
         handlerList.add(new UserWantlistHandler(this));
+        handlerList.add(new ApiStatisticsHandler(this));
+    }
+    
+    /**
+     * Construct a Javacogs instance with custom handlers.<br>
+     * <br>
+     * <b>Warning</b>: use this constructor at own risk. 
+     * 				   Calling getHandler() for non-included handlers will cause NullPointerExceptions.
+     */
+    public Javacogs(List<IHandler> handlers) {
+    	this.handlerList = handlers;
     }
 
 	public AuthenticationMethod getAuthenticationMethod() {
